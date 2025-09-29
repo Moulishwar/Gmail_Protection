@@ -1,20 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="popup.css" />
     <title>Phish Detector</title>
-    <style>
-      body {
-        width: 200px;
-        height: 100px;
-        font-family: Arial, sans-serif;
-        text-align: center;
-        padding-top: 30px;
-      }
-    </style>
   </head>
   <body>
-    <h3>Hello World</h3>
-    <button id="testBtn">Click Me</button>
+    <div class="container">
+      <div id="status" class="status unknown">
+        <div class="dot"></div>
+        <div class="text">
+          <div id="mainText">Checking...</div>
+          <div id="subText" class="sub"></div>
+        </div>
+      </div>
+
+      <div class="meta">
+        <div><strong>Subject:</strong> <span id="subject">—</span></div>
+        <div><strong>Sender:</strong> <span id="sender">—</span></div>
+        <div class="ts" id="timestamp"></div>
+      </div>
+    </div>
+
     <script src="popup.js"></script>
   </body>
 </html>
