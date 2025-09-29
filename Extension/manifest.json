@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "name": "Phish Detector",
+    "description": "Basic skeleton extension (does nothing yet).",
+    "version": "0.1",
+    "action": {
+        "default_popup": "popup.html",
+        "default_title": "Phish Detector"
+    },
+    "icons": {
+        "16": "icons/icon128.png",
+        "48": "icons/icon128.png",
+        "128": "icons/icon128.png"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "permissions": []
+  }
+  
