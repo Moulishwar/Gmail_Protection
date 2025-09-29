@@ -65,6 +65,7 @@
     if (urlLooksLikeMessage()) return true;
     return false;
   }
+  let lastStatus = null;
 
   // Publish result → background
   function publishStatus() {
@@ -77,11 +78,14 @@
       sender: sender || "",
       ts: Date.now()
     };
-
-    try {
+    // Compare with lastStatus (ignore timestamp differences)
+    const comparable = { emailFound: statusObj.emailFound, subject: statusObj.subject, sender: statusObj.sender };
+    if (!lastStatus ||  
+      lastStatus.emailFound !== comparable.emailFound || 
+      lastStatus.subject !== comparable.subject ||
+      lastStatus.sender !== comparable.sender) {
       chrome.runtime.sendMessage({ type: "phish_detector_status", payload: statusObj });
-    } catch (err) {
-      // Ignore if extension context is invalidated (dev reloads)
+      lastStatus = comparable;
     }
   }
 
@@ -91,7 +95,7 @@
   let updateTimer = null;
   const observer = new MutationObserver(() => {
     if (updateTimer) clearTimeout(updateTimer);
-    updateTimer = setTimeout(publishStatus, 250);
+    updateTimer = setTimeout(publishStatus, 500);
   });
 
   observer.observe(document.documentElement || document.body, {
