@@ -18,17 +18,25 @@
     "permissions": [
         "activeTab",
         "scripting",
-        "storage"
+        "storage",
+        "identity"
     ],
     "host_permissions": [
         "https://mail.google.com/*"
     ],
+    
     "content_scripts": [
         {
             "matches": ["https://mail.google.com/*"],
             "js": ["contentScript.js"],
             "run_at": "document_idle"
         }
-    ]
-  }
+    ],
+    "oauth2": {
+        "client_id": "523684215123-f834uksjanjl1rv55arjahqgcmfhioqj.apps.googleusercontent.com",
+        "scopes": [
+            "https://www.googleapis.com/auth/gmail.readonly"
+        ]
+    }
+  } 
   
