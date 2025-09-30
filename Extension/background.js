@@ -27,29 +27,6 @@ chrome.runtime.onInstalled.addListener(() => {
     });
   });
 
-<<<<<<< HEAD
-  // Badge update function
-  function updateBadge(statusObj, tabId) {
-    try {
-      if (!statusObj) {
-        // Grey dot - no data
-        chrome.action.setBadgeText({ text: "•", tabId });
-        chrome.action.setBadgeBackgroundColor({ color: "#666666", tabId });
-      } else if (statusObj.emailFound) {
-        // Green dot - email found (safe)
-        chrome.action.setBadgeText({ text: "•", tabId });
-        chrome.action.setBadgeBackgroundColor({ color: "#4CAF50", tabId });
-      } else {
-        // Grey dot - no email found
-        chrome.action.setBadgeText({ text: "•", tabId });
-        chrome.action.setBadgeBackgroundColor({ color: "#666666", tabId });
-      }
-    } catch (e) {
-      // Ignore badge errors (e.g., during extension reload)
-    }
-  }
-  
-=======
   function getAuthToken() {
     return new Promise((resolve, reject) => {
       chrome.identity.getAuthToken({ interactive: true }, (token) => {
@@ -183,4 +160,3 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     return true; // keep message channel open
   }
 });
->>>>>>> to_backend
