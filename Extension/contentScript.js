@@ -1,3 +1,5 @@
+console.log("Phish Detector content script active in tab", window.location.href);
+
 // contentScript.js
 (function () {
   if (window.__phish_detector_installed) {
@@ -108,3 +110,21 @@
 
   console.log("Phish Detector: content script active (tab-scoped).");
 })();
+
+function getMessageIdFromDom() {
+  const main = document.querySelector("div[role='main']") || document;
+  const el = main.querySelector("[data-legacy-message-id]");
+  if (el) return el.getAttribute("data-legacy-message-id"); // this matches Gmail API id
+  return null;
+}
+
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg.type === "collect_email_data") {
+    const messageId = getMessageIdFromDom();
+    if (!messageId) {
+      console.warn("No Gmail messageId found in DOM.");
+      return;
+    }
+    chrome.runtime.sendMessage({ type: "fetch_gmail_data", messageId });
+  }
+});
