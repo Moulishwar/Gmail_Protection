@@ -1,0 +1,54 @@
+{
+    "project_name": "gmail_protection",
+    "version": "1.0",
+    "stages": {
+      "stage1": {
+        "extension": true,
+        "features": [
+          "gmail_page_detection",
+          "sidebar_ui",
+          "backend_connection_check",
+          "send_entire_email",
+          "send_urls",
+          "send_text",
+          "send_attachments",
+          "manual_input"
+        ]
+      },
+      "stage2": {
+        "backend": "fastapi",
+        "storage_model": "uuid_session",
+        "directories": [
+          "email",
+          "urls",
+          "attachments"
+        ],
+        "attachment_policy": {
+          "max_size_mb": 5,
+          "allowed_types": [
+            "pdf",
+            "docx",
+            "txt",
+            "png",
+            "jpg"
+          ],
+          "restricted_action": "store_metadata_hash"
+        }
+      }
+    },
+    "security": {
+      "cors": "strict",
+      "rate_limit": true,
+      "path_traversal_protection": true,
+      "file_validation": true,
+      "input_sanitization": true
+    },
+    "backend_env": {
+      "BACKEND_HOST": "127.0.0.1",
+      "BACKEND_PORT": "env_variable"
+    },
+    "future_stages": {
+      "stage3": "ml_processing",
+      "stage4": "auto_data_deletion"
+    }
+  }
