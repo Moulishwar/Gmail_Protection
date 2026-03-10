@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gmail Protection</title>
+  <link rel="stylesheet" href="sidebar.css" />
+</head>
+<body>
+
+  <!-- ── Header ──────────────────────────────────────────────────────────── -->
+  <header class="header">
+    <div class="header-title">
+      <img src="icons/icon128.png" alt="Logo" class="header-icon" />
+      <span>Gmail Protection</span>
+    </div>
+    <div id="backendStatus" class="badge badge--disconnected" title="Backend connection">
+      <span class="badge-dot"></span>
+      <span id="backendStatusText">Connecting…</span>
+    </div>
+  </header>
+
+  <!-- ── Section 1: Email Status ────────────────────────────────────────── -->
+  <section class="card" id="sectionEmailStatus">
+    <h2 class="card-title">Email Status</h2>
+    <div id="emailStatusBadge" class="status-badge status-badge--unknown">
+      <span class="status-dot"></span>
+      <span id="emailStatusText">Checking…</span>
+    </div>
+    <div id="emailMeta" class="email-meta hidden">
+      <div class="meta-row">
+        <span class="meta-label">Subject</span>
+        <span id="metaSubject" class="meta-value">—</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">URLs found</span>
+        <span id="metaURLCount" class="meta-value">0</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Attachments</span>
+        <span id="metaAttachCount" class="meta-value">0</span>
+      </div>
+    </div>
+    <button id="btnRefresh" class="btn btn--ghost btn--sm">↺ Refresh</button>
+  </section>
+
+  <!-- ── Section 2: Send Entire Email ───────────────────────────────────── -->
+  <section class="card" id="sectionSendEmail">
+    <h2 class="card-title">Send Entire Email</h2>
+    <p class="card-desc">Sends subject, body text, and extracted URLs to the backend.</p>
+    <button id="btnSendEmail" class="btn btn--primary" disabled>
+      Send Entire Email
+    </button>
+  </section>
+
+  <!-- ── Section 3: Send Components ────────────────────────────────────── -->
+  <section class="card" id="sectionComponents">
+    <h2 class="card-title">Send Email Components</h2>
+    <p class="card-desc">Choose which part of the email to send.</p>
+    <div class="field-group">
+      <label class="field-label" for="componentSelect">Component</label>
+      <select id="componentSelect" class="select">
+        <option value="urls">URLs</option>
+        <option value="text">Text Content</option>
+        <option value="attachments">Attachments</option>
+      </select>
+    </div>
+    <button id="btnSendComponent" class="btn btn--primary" disabled>
+      Send Selected Component
+    </button>
+  </section>
+
+  <!-- ── Section 4: Manual Input ────────────────────────────────────────── -->
+  <section class="card" id="sectionManual">
+    <h2 class="card-title">Manual Input</h2>
+    <p class="card-desc">Paste a URL, multiple URLs, or text content to analyse.</p>
+    <div class="field-group">
+      <label class="field-label" for="manualTypeSelect">Input Type</label>
+      <select id="manualTypeSelect" class="select">
+        <option value="urls">URLs</option>
+        <option value="text">Text Content</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="manualInput">Content</label>
+      <textarea
+        id="manualInput"
+        class="textarea"
+        rows="5"
+        placeholder="Paste one or more URLs, or free-form text here…"
+        maxlength="102400"
+      ></textarea>
+      <span id="manualCharCount" class="char-count">0 / 100 KB</span>
+    </div>
+    <button id="btnSendManual" class="btn btn--primary">
+      Send Manual Input
+    </button>
+  </section>
+
+  <!-- ── Response / Feedback area ──────────────────────────────────────── -->
+  <div id="responseArea" class="response-area hidden">
+    <div id="responseContent" class="response-content"></div>
+  </div>
+
+  <!-- ── Scripts ───────────────────────────────────────────────────────── -->
+  <script src="config.js"></script>
+  <script src="sidebar.js"></script>
+</body>
+</html>

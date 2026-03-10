@@ -1,0 +1,368 @@
+/* sidebar.css — Gmail Protection sidebar panel */
+
+/* ── Reset & base ──────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-bg:        #f8f9fb;
+  --color-surface:   #ffffff;
+  --color-border:    #e2e5ea;
+  --color-primary:   #1a73e8;
+  --color-primary-h: #1558b0;
+  --color-success:   #1e8e3e;
+  --color-danger:    #d93025;
+  --color-warning:   #f29900;
+  --color-text:      #202124;
+  --color-muted:     #5f6368;
+  --color-ghost-bg:  #f1f3f4;
+  --radius:          8px;
+  --radius-sm:       4px;
+  --shadow:          0 1px 4px rgba(0,0,0,.12);
+  --transition:      0.18s ease;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  font-family: 'Google Sans', 'Segoe UI', system-ui, sans-serif;
+  font-size: 13px;
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.5;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  gap: 8px;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.header-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+/* ── Backend status badge ────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.badge--connected {
+  background: #e6f4ea;
+  color: var(--color-success);
+}
+.badge--connected .badge-dot    { background: var(--color-success); }
+
+.badge--disconnected {
+  background: #fce8e6;
+  color: var(--color-danger);
+}
+.badge--disconnected .badge-dot { background: var(--color-danger); }
+
+.badge--checking {
+  background: #fef7e0;
+  color: var(--color-warning);
+}
+.badge--checking .badge-dot     { background: var(--color-warning); }
+
+/* ── Cards ───────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  margin: 10px 10px 0;
+  padding: 12px 14px;
+  box-shadow: var(--shadow);
+}
+
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 6px;
+  letter-spacing: .01em;
+}
+
+.card-desc {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+/* ── Email status badge ──────────────────────────────────────────────────── */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-badge--unknown  { background: #f1f3f4; color: var(--color-muted); }
+.status-badge--unknown .status-dot   { background: var(--color-muted); }
+
+.status-badge--detected { background: #e6f4ea; color: var(--color-success); }
+.status-badge--detected .status-dot { background: var(--color-success); }
+
+.status-badge--none     { background: #fef7e0; color: #b06000; }
+.status-badge--none .status-dot     { background: var(--color-warning); }
+
+.status-badge--error    { background: #fce8e6; color: var(--color-danger); }
+.status-badge--error .status-dot    { background: var(--color-danger); }
+
+/* ── Email meta table ────────────────────────────────────────────────────── */
+.email-meta {
+  background: var(--color-ghost-bg);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  margin-bottom: 10px;
+}
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 2px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.meta-row:last-child { border-bottom: none; }
+
+.meta-label {
+  font-size: 11px;
+  color: var(--color-muted);
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+
+.meta-value {
+  font-size: 12px;
+  color: var(--color-text);
+  text-align: right;
+  word-break: break-all;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Form fields ─────────────────────────────────────────────────────────── */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.field-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition);
+  appearance: auto;
+}
+
+.select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(26,115,232,.18);
+}
+
+.textarea {
+  width: 100%;
+  padding: 7px 9px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 12px;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+  transition: border-color var(--transition);
+  line-height: 1.5;
+}
+
+.textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(26,115,232,.18);
+}
+
+.char-count {
+  font-size: 10px;
+  color: var(--color-muted);
+  text-align: right;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition), opacity var(--transition);
+  width: 100%;
+  line-height: 1;
+}
+
+.btn--primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: var(--color-primary-h);
+}
+
+.btn--ghost {
+  background: var(--color-ghost-bg);
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  background: var(--color-border);
+}
+
+.btn--sm {
+  padding: 5px 10px;
+  font-size: 11px;
+  width: auto;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn.loading::after {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255,255,255,.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  margin-left: 6px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Response area ───────────────────────────────────────────────────────── */
+.response-area {
+  margin: 10px 10px 14px;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.response-content {
+  padding: 10px 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: var(--radius);
+  word-break: break-word;
+}
+
+.response-content.success {
+  background: #e6f4ea;
+  color: var(--color-success);
+  border: 1px solid #ceead6;
+}
+
+.response-content.error {
+  background: #fce8e6;
+  color: var(--color-danger);
+  border: 1px solid #f5c6c3;
+}
+
+.response-content.info {
+  background: #e8f0fe;
+  color: #1967d2;
+  border: 1px solid #d2e3fc;
+}
+
+/* ── Utility ─────────────────────────────────────────────────────────────── */
+.hidden { display: none !important; }
+
+/* ── Bottom padding ──────────────────────────────────────────────────────── */
+body::after {
+  content: '';
+  display: block;
+  height: 14px;
+}
