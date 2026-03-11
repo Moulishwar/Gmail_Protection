@@ -14,7 +14,6 @@ class _RateLimiter:
     def __init__(self, max_requests: int = 10, window_seconds: int = 60) -> None:
         self.max_requests   = max_requests
         self.window_seconds = window_seconds
-        # ip → list of request timestamps (float, UNIX epoch)
         self._log: dict[str, list[float]] = defaultdict(list)
 
     def check(self, client_ip: str) -> None:

@@ -12,6 +12,7 @@ venv/
 # Backend runtime data (sessions and logs are generated at runtime)
 Backend/storage/session_*/
 Backend/logs/backend.log
+Backend/logs/*.log
 
 # Old Flask backend files
 Backend/content.txt
@@ -21,3 +22,10 @@ Backend/attachments/
 # OS
 .DS_Store
 Thumbs.db
+
+# IDE/editor config
+.vscode/
+.idea/
+
+# Training
+Train/

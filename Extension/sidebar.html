@@ -44,19 +44,36 @@
     <button id="btnRefresh" class="btn btn--ghost btn--sm">↺ Refresh</button>
   </section>
 
-  <!-- ── Section 2: Send Entire Email ───────────────────────────────────── -->
-  <section class="card" id="sectionSendEmail">
-    <h2 class="card-title">Send Entire Email</h2>
-    <p class="card-desc">Sends subject, body text, and extracted URLs to the backend.</p>
-    <button id="btnSendEmail" class="btn btn--primary" disabled>
-      Send Entire Email
+  <!-- ── Section 2: Phishing Analysis ───────────────────────────────────── -->
+  <section class="card" id="sectionAnalyze">
+    <h2 class="card-title">Phishing Analysis</h2>
+    <p class="card-desc">Run ML-powered phishing detection on the current email.</p>
+    <button id="btnAnalyze" class="btn btn--primary" disabled>
+      Analyze for Phishing
     </button>
+
+    <div id="analyzeLoading" class="analyze-loading hidden">
+      <div class="analyze-spinner"></div>
+      <span>Analyzing email and URLs…</span>
+    </div>
+
+    <div id="analyzeResults" class="analyze-results hidden">
+      <div id="verdictBanner" class="verdict-banner"></div>
+      <div class="results-block" id="emailRiskBlock">
+        <div class="results-block-label">Email Content Risk</div>
+        <div id="emailRiskRow" class="risk-row"></div>
+      </div>
+      <div class="results-block" id="urlRisksBlock">
+        <div class="results-block-label">URL Risk</div>
+        <div id="urlRiskList" class="url-risk-list"></div>
+      </div>
+    </div>
   </section>
 
-  <!-- ── Section 3: Send Components ────────────────────────────────────── -->
+  <!-- ── Section 3: Analyse Email Components ────────────────────────────── -->
   <section class="card" id="sectionComponents">
-    <h2 class="card-title">Send Email Components</h2>
-    <p class="card-desc">Choose which part of the email to send.</p>
+    <h2 class="card-title">Analyse Email Components</h2>
+    <p class="card-desc">Analyse URLs or text content individually from the current email.</p>
     <div class="field-group">
       <label class="field-label" for="componentSelect">Component</label>
       <select id="componentSelect" class="select">
@@ -65,9 +82,26 @@
         <option value="attachments">Attachments</option>
       </select>
     </div>
-    <button id="btnSendComponent" class="btn btn--primary" disabled>
-      Send Selected Component
+    <button id="btnAnalyzeComp" class="btn btn--primary" disabled>
+      Analyse Selected Component
     </button>
+
+    <div id="compLoading" class="analyze-loading hidden">
+      <div class="analyze-spinner"></div>
+      <span id="compLoadingText">Analysing…</span>
+    </div>
+
+    <div id="compResults" class="analyze-results hidden">
+      <div id="compVerdictBanner" class="verdict-banner"></div>
+      <div class="results-block" id="compEmailBlock">
+        <div class="results-block-label">Email Content Risk</div>
+        <div id="compEmailRiskRow" class="risk-row"></div>
+      </div>
+      <div class="results-block" id="compUrlRisksBlock">
+        <div class="results-block-label">URL Risk</div>
+        <div id="compUrlRiskList" class="url-risk-list"></div>
+      </div>
+    </div>
   </section>
 
   <!-- ── Section 4: Manual Input ────────────────────────────────────────── -->
@@ -92,17 +126,34 @@
       ></textarea>
       <span id="manualCharCount" class="char-count">0 / 100 KB</span>
     </div>
-    <button id="btnSendManual" class="btn btn--primary">
-      Send Manual Input
+    <button id="btnManualAnalyze" class="btn btn--primary">
+      Analyse
     </button>
+
+    <div id="manualLoading" class="analyze-loading hidden">
+      <div class="analyze-spinner"></div>
+      <span id="manualLoadingText">Analysing…</span>
+    </div>
+
+    <div id="manualResults" class="analyze-results hidden">
+      <div id="manualVerdictBanner" class="verdict-banner"></div>
+      <div class="results-block" id="manualEmailBlock">
+        <div class="results-block-label">Email Content Risk</div>
+        <div id="manualEmailRiskRow" class="risk-row"></div>
+      </div>
+      <div class="results-block" id="manualUrlRisksBlock">
+        <div class="results-block-label">URL Risk</div>
+        <div id="manualUrlRiskList" class="url-risk-list"></div>
+      </div>
+    </div>
   </section>
 
-  <!-- ── Response / Feedback area ──────────────────────────────────────── -->
+  <!-- ── Response / Feedback area ───────────────────────────────────────── -->
   <div id="responseArea" class="response-area hidden">
     <div id="responseContent" class="response-content"></div>
   </div>
 
-  <!-- ── Scripts ───────────────────────────────────────────────────────── -->
+  <!-- ── Scripts ────────────────────────────────────────────────────────── -->
   <script src="config.js"></script>
   <script src="sidebar.js"></script>
 </body>

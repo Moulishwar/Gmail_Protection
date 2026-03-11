@@ -1,11 +1,4 @@
 # routes/attachment_routes.py — POST /attachments
-#
-# Handles two cases:
-#   1. JSON metadata list  — attachment info scraped from Gmail DOM
-#   2. Multipart file upload — actual file bytes (for future use)
-#
-# Allowed upload types: pdf, docx, txt, png, jpg  (max 5 MB each)
-# Restricted types     : metadata + SHA-256 hash stored only
 
 import uuid
 import json

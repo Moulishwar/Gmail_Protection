@@ -3,10 +3,8 @@
 import hashlib
 from pathlib import Path
 
-# Allowed file extensions for full upload (from project_spec.json)
 ALLOWED_EXTENSIONS: frozenset[str] = frozenset({"pdf", "docx", "txt", "png", "jpg"})
 
-# Maximum allowed file size in bytes (5 MB per spec)
 MAX_FILE_SIZE_BYTES: int = 5 * 1024 * 1024  # 5 MB
 
 

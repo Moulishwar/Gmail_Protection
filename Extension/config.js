@@ -16,7 +16,8 @@ const CONFIG = {
     EMAIL:        "/email",
     URLS:         "/urls",
     ATTACHMENTS:  "/attachments",
-    MANUAL_INPUT: "/manual-input"
+    MANUAL_INPUT: "/manual-input",
+    ANALYZE:      "/analyze"
   },
 
   // Maximum text payload size in bytes (100 KB per agent_rules.md rule 7)

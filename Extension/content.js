@@ -177,23 +177,44 @@
     }
   }
 
+  // ── Extension context guard ────────────────────────────────────────────────
+  // chrome.runtime.id is undefined once the extension is reloaded/invalidated.
+  function isContextAlive() {
+    try { return !!chrome.runtime.id; } catch (_) { return false; }
+  }
+
+  // Called whenever the context dies so we stop all observers and timers.
+  function teardown() {
+    observer.disconnect();
+    clearTimeout(_mutationTimer);
+    window.removeEventListener('hashchange', onHashChange);
+  }
+
   // ── Status push to background ──────────────────────────────────────────────
   let _lastEmailFound = null;
 
   function publishStatus() {
+    if (!isContextAlive()) { teardown(); return; }
+
     const emailFound = isEmailOpen();
     const subject    = emailFound ? extractSubject() : '';
 
     if (_lastEmailFound !== emailFound) {
       _lastEmailFound = emailFound;
-      chrome.runtime
-        .sendMessage({ type: 'EMAIL_STATUS', payload: { emailFound, subject, ts: Date.now() } })
-        .catch(() => {}); // no listener yet on first run
+      try {
+        chrome.runtime
+          .sendMessage({ type: 'EMAIL_STATUS', payload: { emailFound, subject, ts: Date.now() } })
+          .catch(() => {}); // background may not be listening on first run
+      } catch (_) {
+        // Extension was reloaded — stop all activity on this page.
+        teardown();
+      }
     }
   }
 
   // ── Message listener ───────────────────────────────────────────────────────
   chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+    if (!isContextAlive()) return;
     if (msg.type === 'GET_EMAIL_DATA') {
       sendResponse(getEmailData());
       return true; // keep channel open
@@ -216,7 +237,8 @@
   observer.observe(targetNode, { subtree: true, childList: true });
 
   // Re-check on Gmail SPA navigation
-  window.addEventListener('hashchange', () => setTimeout(publishStatus, 300));
+  function onHashChange() { setTimeout(publishStatus, 300); }
+  window.addEventListener('hashchange', onHashChange);
 
   // Initial detection
   setTimeout(publishStatus, 800);

@@ -4,9 +4,8 @@ import re
 import html
 from fastapi import HTTPException
 
-MAX_TEXT_BYTES = 100 * 1024  # 100 KB per agent_rules.md rule 7
-MAX_BODY_CHARS = 50_000       # per gmail_dom_selectors.md
-
+MAX_TEXT_BYTES = 100 * 1024  
+MAX_BODY_CHARS = 50_000       
 
 def sanitize_text(text: str) -> str:
     """
@@ -15,9 +14,7 @@ def sanitize_text(text: str) -> str:
     """
     if not isinstance(text, str):
         return ""
-    # Escape HTML special characters to neutralize any embedded markup
     sanitized = html.escape(text, quote=True)
-    # Strip null bytes
     sanitized = sanitized.replace("\x00", "")
     return sanitized
 
