@@ -1,2 +1,23 @@
 .env
 Ignore/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Backend runtime data (sessions and logs are generated at runtime)
+Backend/storage/session_*/
+Backend/logs/backend.log
+
+# Old Flask backend files
+Backend/content.txt
+Backend/urls.txt
+Backend/attachments/
+
+# OS
+.DS_Store
+Thumbs.db
