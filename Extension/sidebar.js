@@ -101,7 +101,7 @@ function renderEmailStatus(data) {
 
   if (data.error && !data.emailFound) {
     emailStatusBadge.className = 'status-badge status-badge--error';
-    emailStatusText.textContent = 'Error reading tab';
+    emailStatusText.textContent = data.error;
     emailMetaEl.classList.add('hidden');
     btnSendEmail.disabled     = true;
     btnSendComponent.disabled = true;

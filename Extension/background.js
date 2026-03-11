@@ -29,21 +29,58 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.type === 'REQUEST_EMAIL_DATA') {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (!tabs || !tabs.length) {
-        sendResponse({ emailFound: false, error: 'No active Gmail tab found.' });
+        sendResponse({ emailFound: false, error: 'No tab active. Open Gmail in a tab first.' });
         return;
       }
 
-      const tabId = tabs[0].id;
-      chrome.tabs.sendMessage(tabId, { type: 'GET_EMAIL_DATA' }, (response) => {
-        if (chrome.runtime.lastError) {
-          sendResponse({
-            emailFound: false,
-            error: 'Content script unreachable. Reload the Gmail tab.',
-          });
-        } else {
-          sendResponse(response || { emailFound: false });
-        }
-      });
+      const tab = tabs[0];
+      const tabId = tab.id;
+      const isGmail = tab.url && tab.url.startsWith('https://mail.google.com/');
+
+      if (!isGmail) {
+        sendResponse({
+          emailFound: false,
+          error: 'Active tab is not Gmail. Open mail.google.com and a message, then refresh.',
+        });
+        return;
+      }
+
+      function tryGetEmailData() {
+        chrome.tabs.sendMessage(tabId, { type: 'GET_EMAIL_DATA' }, (response) => {
+          if (chrome.runtime.lastError) {
+            // Content script not loaded — try to inject it and retry once
+            chrome.scripting.executeScript(
+              { target: { tabId }, files: ['content.js'] },
+              (injResult) => {
+                if (chrome.runtime.lastError || !injResult || !injResult.length) {
+                  sendResponse({
+                    emailFound: false,
+                    error: 'Could not read Gmail tab. Reload the Gmail page (F5) and try again.',
+                  });
+                  return;
+                }
+                // Injected; give the script a moment to register its listener, then retry
+                setTimeout(() => {
+                  chrome.tabs.sendMessage(tabId, { type: 'GET_EMAIL_DATA' }, (retryResponse) => {
+                    if (chrome.runtime.lastError) {
+                      sendResponse({
+                        emailFound: false,
+                        error: 'Could not read Gmail tab. Reload the Gmail page (F5) and try again.',
+                      });
+                    } else {
+                      sendResponse(retryResponse || { emailFound: false });
+                    }
+                  });
+                }, 150);
+              }
+            );
+          } else {
+            sendResponse(response || { emailFound: false });
+          }
+        });
+      }
+
+      tryGetEmailData();
     });
     return true; // keep channel open for async response
   }
